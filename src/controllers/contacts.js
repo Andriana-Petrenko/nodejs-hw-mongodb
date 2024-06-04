@@ -1,10 +1,12 @@
 import { createContact, deleteContactById, getAllContacts, getContactById, patchContactById } from "../services/contacts.js";
 import createHttpError from 'http-errors';
 import mongoose from 'mongoose'; 
+import { parsePaginationParams } from "../utils/parsePaginationParams.js";
 
 export const getContactsController = async (req, res,next) => {
     try {
-        const contacts = await getAllContacts();
+        const { page, perPage } = parsePaginationParams(req.query);
+        const contacts = await getAllContacts({page, perPage,});
         res.status(200).json({
         message: 'Successfully found contacts!',
         data: contacts,
