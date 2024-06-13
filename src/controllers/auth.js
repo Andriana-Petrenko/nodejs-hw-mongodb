@@ -1,5 +1,6 @@
+
 import { ONE_DAY } from "../constants/index.js";
-import { loginUser, registerUser } from "../services/auth.js";
+import { loginUser, logoutUser, registerUser } from "../services/auth.js";
 
 
 export const registerUserController = async (req, res) => {
@@ -15,15 +16,16 @@ export const registerUserController = async (req, res) => {
 export const loginUserController = async (req, res) => {
     const session = await loginUser(req.body);
 
+    res.cookie('sessionId', session._id, {
+        httpOnly: true,
+        expires: new Date(Date.now() + ONE_DAY),
+     });
     res.cookie('refreshToken', session.refreshToken, {
         httpOnly: true,
         expires: new Date(Date.now() + ONE_DAY),
     });
-    
-    res.cookie('sessionId', session._id, {
-        httpOnly: true,
-        expires: new Date(Date.now() + ONE_DAY),
-  });
+
+   
 
     res.json({
         status: 201,
@@ -31,3 +33,48 @@ export const loginUserController = async (req, res) => {
         data: {accessToken: session.accessToken,},
     });
 };
+
+// const setupSession = (res, session) => {
+//   res.cookie('refreshToken', session.refreshToken, {
+//     httpOnly: true,
+//     expires: new Date(Date.now() + ONE_DAY),
+//   });
+//   res.cookie('sessionId', session._id, {
+//     httpOnly: true,
+//     expires: new Date(Date.now() + ONE_DAY),
+//   });
+// };
+
+// export const refreshSessionController = async (req, res) => {
+//      const session = await refreshSession({
+//          sessionId: req.cookies.sessionId,
+//          refreshToken: req.cookies.refreshToken,
+//      });
+
+//     setupSession(res, session);
+    
+//     res.json({
+//         status: 200,
+//         message: 'Successfully refreshed a session!',
+//         data: {accessToken: session.accessToken,},
+//     });
+// };
+
+
+export const logoutUserController = async (req, res) => {
+  await logoutUser({
+    sessionId: req.cookies.sessionId,
+    refreshToken: req.cookies.refreshToken,
+  });
+
+  res.clearCookie('sessionId');
+  res.clearCookie('refreshToken');
+
+  res.status(204);
+};
+
+
+
+
+
+

@@ -4,12 +4,12 @@ import { createContactController, deleteContactController, getContactByIdControl
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { createContactSchema, updateContactSchema } from '../validation/contacts.js';
-const router = Router();
+const contactsRouter = Router();
 
-router.get('/', ctrlWrapper(getContactsController));
-router.get('/:contactId', ctrlWrapper(getContactByIdController));
-router.post('/',  validateBody(createContactSchema),ctrlWrapper(createContactController));
-router.patch('/:contactId', validateBody(updateContactSchema), ctrlWrapper(patchContactController));
-router.delete('/:contactId', ctrlWrapper(deleteContactController));
+contactsRouter.get('/', ctrlWrapper(getContactsController));
+contactsRouter.get('/:contactId', ctrlWrapper(getContactByIdController));
+contactsRouter.post('/',  validateBody(createContactSchema),ctrlWrapper(createContactController));
+contactsRouter.patch('/:contactId', validateBody(updateContactSchema), ctrlWrapper(patchContactController));
+contactsRouter.delete('/:contactId', ctrlWrapper(deleteContactController));
 
-export default router;
+export default contactsRouter;
