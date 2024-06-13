@@ -45,44 +45,44 @@ export const loginUser = async (payload) => {
 };
 
 
-// const createSession = () => {
-//   const accessToken = randomBytes(30).toString('base64');
-//   const refreshToken = randomBytes(30).toString('base64');
+const createSession = () => {
+  const accessToken = randomBytes(30).toString('base64');
+  const refreshToken = randomBytes(30).toString('base64');
 
-//   return {
-//     accessToken,
-//     refreshToken,
-//     accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
-//     refreshTokenValidUntil: new Date(Date.now() + THIRTY_DAYS),
-//   };
-// };
+  return {
+    accessToken,
+    refreshToken,
+    accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
+    refreshTokenValidUntil: new Date(Date.now() + THIRTY_DAYS),
+  };
+};
 
-// export const refreshSession = async ({ sessionId, refreshToken }) => {
-//   const session = await Session.findOne({
-//     _id: sessionId,
-//     refreshToken,
-//   });
+export const refreshSession = async ({ sessionId, refreshToken }) => {
+  const session = await Session.findOne({
+    _id: sessionId,
+    refreshToken,
+  });
 
-//   if (!session) {
-//     throw createHttpError(401, 'Session not found');
-//   }
+  if (!session) {
+    throw createHttpError(401, 'Session not found');
+  }
 
-//   const isSessionTokenExpired =
-//     new Date() > new Date(session.refreshTokenValidUntil);
+  const isSessionTokenExpired =
+    new Date() > new Date(session.refreshTokenValidUntil);
 
-//   if (isSessionTokenExpired) {
-//     throw createHttpError(401, 'Session token expired');
-//   }
+  if (isSessionTokenExpired) {
+    throw createHttpError(401, 'Session token expired');
+  }
   
-//   const newSession = createSession();
+  const newSession = createSession();
 
-//   await Session.deleteOne({ _id: sessionId, refreshToken });
+  await Session.deleteOne({ _id: sessionId, refreshToken });
 
-//   return await sessionId.create({
-//     userId: session.userId,
-//     ...newSession,
-//   });
-// };
+  return await Session.create({
+    userId: session.userId,
+    ...newSession,
+  });
+};
 
 export const logoutUser = async ({ sessionId, refreshToken }) => {
   return await Session.deleteOne({
