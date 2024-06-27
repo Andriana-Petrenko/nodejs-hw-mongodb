@@ -1,20 +1,22 @@
 tags:
   - Contacts
-summary: Create contact
-operationId: createContact
-description: 'Create a contact with payload'
+summary: Patch contact
+operationId: patchContact
+description: 'Update contact'
 security:
   - bearerAuth: []
+parameters:
+  - in: path
+    name: contactId
+    required: true
+    schema:
+      type: string
+      example: '6675a7235e9619e247d16c13'
 requestBody:
   content:
     multipart/form-data:
       schema:
         type: object
-        required:
-          - name
-          - phoneNumber
-          - contactType
-          - userId
         properties:
           name:
             description: "Contact's name"
@@ -45,8 +47,8 @@ requestBody:
             type: string
             format: binary
 responses:
-  '201':
-    description: Creates a student
+  '200':
+    description: 'Update contact by id'
     content:
       application/json:
         schema:
@@ -61,9 +63,9 @@ responses:
               example: 200
             message:
               type: string
-              example: Successfully created a contact!
+              example: Successfully patched a contact!
             data:
               type: object
-              $ref: '../../components/schemas/contact.yaml'
+              $ref: '../../../components/schemas/contact.yaml'
   '404':
-    $ref: '../../components/responses/404.yaml'
+    $ref: '../../../components/responses/404.yaml'

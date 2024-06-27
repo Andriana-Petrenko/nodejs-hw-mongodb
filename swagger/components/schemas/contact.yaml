@@ -21,7 +21,7 @@ properties:
   email:
     description: "Contact's email"
     type: string
-    example: tajo@gmail.co
+    example: tajo@gmail.com
   contactType:
     description: "Contact's type"
     type: string
