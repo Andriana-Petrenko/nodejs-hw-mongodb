@@ -41,7 +41,7 @@ parameters:
       example: 'work'
 responses:
   '200':
-    description: Successfully found contacts!
+    description: 'Successfully found contacts!'
     content:
       application/json:
         schema:
@@ -70,8 +70,9 @@ responses:
               properties:
                 data:
                   type: array
-                  data:
-                    $ref: '../../components/schemas/contact.yaml'
+                  properties:
+                    data:
+                      $ref: '../../components/schemas/contact.yaml'
                 page:
                   type: number
                   example: 1
@@ -90,5 +91,5 @@ responses:
                 hasPreviousPage:
                   type: boolean
                   example: true
-  '404':
-    $ref: '../../components/responses/404.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'

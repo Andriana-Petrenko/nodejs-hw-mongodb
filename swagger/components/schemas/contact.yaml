@@ -27,7 +27,7 @@ properties:
     type: string
     enum: ['work', 'home', 'personal']
   isFavourite:
-    description: 'Whether is contact favourite'
+    description: "Whether is contact favourite"
     type: boolean
     example: false
   userId:

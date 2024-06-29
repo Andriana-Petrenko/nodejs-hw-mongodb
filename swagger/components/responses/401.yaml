@@ -10,7 +10,7 @@ content:
       properties:
         status:
           type: integer
-          example: 404
+          example: 401
         message:
           type: string
           example: UnauthorizedError
@@ -21,4 +21,4 @@ content:
           properties:
             message:
               type: string
-              example: 'Not found'
+              example: 'Token is expired or invalid'
